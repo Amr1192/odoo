@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Tree View -->
     <record id="hms_patient_tree_view" model="ir.ui.view">
@@ -11,17 +12,20 @@
                 <field name="blood_type"/>
                 <field name="age"/>
                 <field name="department_id"/>
-                <field name="state" widget="statusbar" clickable="True"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
-
+   
     <!-- Form View -->
     <record id="hms_patient_form_view" model="ir.ui.view">
         <field name="name">hms.patient.form</field>
         <field name="model">hms.patient</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="1"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -32,20 +36,19 @@
                     <group>
                         <group>
                             <field name="birth_date"/>
-                            <field name="age" readonly="True"/>
+                            <field name="age" readonly="1"/>
                             <field name="blood_type"/>
                             <field name="pcr"/>
                             <field name="cr_ratio"/>
                         </group>
                         <group>
-                            <field name="department_id"/>
-                            <field name="department_capacity" readonly="True"/>
+                            <field name="department_id" domain="[('is_opened', '=', True)]"/>
+                            <field name="department_capacity" readonly="1"/>
                             <field name="doctor_ids" widget="many2many_tags"/>
-                            <field name="state" widget="statusbar" clickable="True"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Additional Info">
+                        <page string="Additional Info" name="additional_info">
                             <group>
                                 <field name="image" widget="image"/>
                                 <field name="address"/>
@@ -66,6 +69,6 @@
         <field name="name">Patients</field>
         <field name="res_model">hms.patient</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="hms_patient_tree_view" eval="False"/>
+        <field name="view_id" ref="hms_patient_tree_view"/>
     </record>
 </odoo>
